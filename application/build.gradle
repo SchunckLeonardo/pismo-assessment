@@ -1,0 +1,7 @@
+apply plugin: 'application'
+
+mainClassName = 'br.com.pismo.customerassessment.Boot'
+
+dependencies {
+
+}
