@@ -16,9 +16,8 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToOne
-    @JoinColumn(name = "id_customer")
-    private Customer customer;
+    @Column(name = "document_number", nullable = false)
+    private String documentNumber;
 
     @OneToMany(mappedBy = "account")
     private List<Transaction> transaction;
