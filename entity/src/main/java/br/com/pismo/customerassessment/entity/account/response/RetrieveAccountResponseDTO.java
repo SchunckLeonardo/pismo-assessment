@@ -2,7 +2,7 @@ package br.com.pismo.customerassessment.entity.account.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record CreateAccountResponseDTO(
+public record RetrieveAccountResponseDTO(
         @JsonProperty("account_id")
         Integer accountId,
 

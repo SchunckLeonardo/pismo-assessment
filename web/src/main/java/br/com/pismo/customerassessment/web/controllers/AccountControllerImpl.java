@@ -2,13 +2,15 @@ package br.com.pismo.customerassessment.web.controllers;
 
 import br.com.pismo.customerassessment.entity.account.request.CreateAccountRequestDTO;
 import br.com.pismo.customerassessment.entity.account.response.CreateAccountResponseDTO;
+import br.com.pismo.customerassessment.entity.account.response.RetrieveAccountResponseDTO;
 import br.com.pismo.customerassessment.service.AccountService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/accounts")
@@ -22,7 +24,12 @@ public class AccountControllerImpl implements AccountController{
 
     @PostMapping
     public ResponseEntity<CreateAccountResponseDTO> createAccount(@RequestBody @Valid CreateAccountRequestDTO requestDTO) {
-        return ResponseEntity.ok(accountService.createAccount(requestDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(accountService.createAccount(requestDTO));
+    }
+
+    @GetMapping("/{accountId}")
+    public ResponseEntity<RetrieveAccountResponseDTO> retrieveAccount(@PathVariable(name = "accountId") Integer accountId) {
+        return ResponseEntity.ok(accountService.retrieveAccount(accountId));
     }
 
 }

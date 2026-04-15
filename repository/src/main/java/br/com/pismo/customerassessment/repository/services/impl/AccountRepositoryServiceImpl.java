@@ -34,6 +34,12 @@ public class AccountRepositoryServiceImpl implements AccountRepositoryService {
                 .map(this::toAccountDTO);
     }
 
+    @Override
+    public Optional<AccountDTO> getAccountById(Integer accountId) {
+        return accountRepository.findById(accountId)
+                .map(this::toAccountDTO);
+    }
+
     private AccountDTO toAccountDTO(Account account) {
         return new AccountDTO(
                 account.getId(),

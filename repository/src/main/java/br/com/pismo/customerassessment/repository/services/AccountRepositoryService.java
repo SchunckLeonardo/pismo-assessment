@@ -8,5 +8,6 @@ public interface AccountRepositoryService {
 
     AccountDTO createAccount(String documentNumber);
     Optional<AccountDTO> getAccountByDocumentNumber(String documentNumber);
+    Optional<AccountDTO> getAccountById(Integer accountId);
 
 }
