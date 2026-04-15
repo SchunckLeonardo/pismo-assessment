@@ -3,7 +3,7 @@ CREATE TABLE tb_transaction (
     id_account INTEGER NOT NULL,
     id_operation_type INTEGER NOT NULL,
     amount DOUBLE PRECISION NOT NULL,
-    event_date TIMESTAMP NOT NULL,
+    event_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_transaction_account FOREIGN KEY (id_account)
         REFERENCES tb_account (id_account),
     CONSTRAINT fk_transaction_operation_type FOREIGN KEY (id_operation_type)

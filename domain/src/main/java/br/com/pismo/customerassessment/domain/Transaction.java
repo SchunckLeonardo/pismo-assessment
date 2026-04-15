@@ -27,6 +27,6 @@ public class Transaction {
     private Double amount;
 
     @Column(name = "event_date", nullable = false)
-    private LocalDateTime eventDate;
+    private LocalDateTime eventDate = LocalDateTime.now();
 
 }
