@@ -1,6 +1,7 @@
 package br.com.pismo.customerassessment.service.impl;
 
 import br.com.pismo.customerassessment.entity.account.dto.AccountDTO;
+import br.com.pismo.customerassessment.entity.account.request.CreateAccountRequestDTO;
 import br.com.pismo.customerassessment.entity.account.response.CreateAccountResponseDTO;
 import br.com.pismo.customerassessment.entity.exceptions.AccountAlreadyExistsException;
 import br.com.pismo.customerassessment.repository.services.AccountRepositoryService;
@@ -17,7 +18,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public CreateAccountResponseDTO createAccount(String documentNumber) {
+    public CreateAccountResponseDTO createAccount(CreateAccountRequestDTO requestDTO) {
+        String documentNumber = requestDTO.documentNumber();
+
         accountRepositoryService.getAccountByDocumentNumber(documentNumber)
                 .ifPresent(account -> {
                     throw new AccountAlreadyExistsException(documentNumber);

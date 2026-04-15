@@ -1,7 +1,6 @@
 package br.com.pismo.customerassessment.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "tb_account")
 @Data
+@NoArgsConstructor
 public class Account {
 
     @Id
