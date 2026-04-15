@@ -3,6 +3,7 @@ package br.com.pismo.customerassessment.web.handlers;
 import br.com.pismo.customerassessment.entity.exceptions.AccountAlreadyExistsException;
 import br.com.pismo.customerassessment.entity.exceptions.AccountNotExistsException;
 import br.com.pismo.customerassessment.entity.exceptions.ApiErrorDTO;
+import br.com.pismo.customerassessment.entity.exceptions.OperationTypeNotExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,6 +36,12 @@ public class ControllerExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(AccountNotExistsException.class)
     public ApiErrorDTO handleAccountNotExistsException(AccountNotExistsException ex) {
+        return new ApiErrorDTO(ex.getCode(), ex.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(OperationTypeNotExistsException.class)
+    public ApiErrorDTO handleOperationTypeNotExistsException(OperationTypeNotExistsException ex) {
         return new ApiErrorDTO(ex.getCode(), ex.getMessage());
     }
 

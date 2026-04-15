@@ -19,6 +19,7 @@ public class AccountServiceImpl implements AccountService {
         this.accountRepositoryService = accountRepositoryService;
     }
 
+    @Override
     public CreateAccountResponseDTO createAccount(CreateAccountRequestDTO requestDTO) {
         String documentNumber = requestDTO.documentNumber();
 
@@ -35,6 +36,7 @@ public class AccountServiceImpl implements AccountService {
         );
     }
 
+    @Override
     public RetrieveAccountResponseDTO retrieveAccount(Integer accountId) {
         AccountDTO account = accountRepositoryService.getAccountById(accountId)
                 .orElseThrow(() -> new AccountNotExistsException(accountId));
