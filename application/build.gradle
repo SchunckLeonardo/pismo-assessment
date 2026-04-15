@@ -1,6 +1,16 @@
 apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
 
 mainClassName = 'br.com.pismo.customerassessment.Boot'
+
+bootJar {
+    archiveFileName = 'customerassessment.jar'
+    mainClass = 'br.com.pismo.customerassessment.Boot'
+}
+
+jar {
+    enabled = false
+}
 
 dependencies {
     implementation(project(':domain'))
