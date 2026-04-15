@@ -4,4 +4,6 @@ mainClassName = 'br.com.pismo.customerassessment.Boot'
 
 dependencies {
     implementation(project(':domain'))
+    implementation(project(':repository'))
+    implementation(project(':service'))
 }
