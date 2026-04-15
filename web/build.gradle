@@ -1,4 +1,5 @@
 dependencies {
     implementation(project(':entity'))
     implementation(project(':service'))
+    testImplementation(project(':application'))
 }
