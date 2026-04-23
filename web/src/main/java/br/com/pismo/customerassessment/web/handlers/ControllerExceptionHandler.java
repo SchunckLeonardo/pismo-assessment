@@ -1,9 +1,6 @@
 package br.com.pismo.customerassessment.web.handlers;
 
-import br.com.pismo.customerassessment.entity.exceptions.AccountAlreadyExistsException;
-import br.com.pismo.customerassessment.entity.exceptions.AccountNotExistsException;
-import br.com.pismo.customerassessment.entity.exceptions.ApiErrorDTO;
-import br.com.pismo.customerassessment.entity.exceptions.OperationTypeNotExistsException;
+import br.com.pismo.customerassessment.entity.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -49,6 +46,12 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ApiErrorDTO handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
         return new ApiErrorDTO("method.argument.type.mismatch", ex.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(TransactionAmountExceedsAvailableCreditLimitException.class)
+    public ApiErrorDTO handleTransactionAmountExceedsAvailableCreditLimitException(TransactionAmountExceedsAvailableCreditLimitException ex) {
+        return new ApiErrorDTO(ex.code, ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

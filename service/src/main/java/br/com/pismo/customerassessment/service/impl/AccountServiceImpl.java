@@ -22,17 +22,19 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public CreateAccountResponseDTO createAccount(CreateAccountRequestDTO requestDTO) {
         String documentNumber = requestDTO.documentNumber();
+        Double availableCreditLimit = requestDTO.availableCreditLimit();
 
         accountRepositoryService.getAccountByDocumentNumber(documentNumber)
                 .ifPresent(account -> {
                     throw new AccountAlreadyExistsException(documentNumber);
                 });
 
-        AccountDTO createdAccount = accountRepositoryService.createAccount(documentNumber);
+        AccountDTO createdAccount = accountRepositoryService.createAccount(documentNumber, availableCreditLimit);
 
         return new CreateAccountResponseDTO(
                 createdAccount.accountId(),
-                createdAccount.documentNumber()
+                createdAccount.documentNumber(),
+                createdAccount.availableCreditLimit()
         );
     }
 
@@ -43,7 +45,8 @@ public class AccountServiceImpl implements AccountService {
 
         return new RetrieveAccountResponseDTO(
                 account.accountId(),
-                account.documentNumber()
+                account.documentNumber(),
+                account.availableCreditLimit()
         );
     }
 

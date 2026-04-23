@@ -20,11 +20,14 @@ public class Account {
     @Column(name = "document_number", nullable = false)
     private String documentNumber;
 
+    @Column(name = "available_credit_limit", nullable = true)
+    private Double availableCreditLimit = 5000.0;
+
     @OneToMany(mappedBy = "account")
     private List<Transaction> transaction;
 
-    public Account(String documentNumber) {
+    public Account(String documentNumber, Double availableCreditLimit) {
         this.documentNumber = documentNumber;
+        this.availableCreditLimit = availableCreditLimit;
     }
-
 }

@@ -11,6 +11,8 @@ public record CreateAccountResponseDTO(
 
         @Schema(description = "CPF document number associated with the account", example = "52998224725")
         @JsonProperty("document_number")
-        String documentNumber
+        String documentNumber,
+
+        Double availableCreditLimit
 ) {
 }

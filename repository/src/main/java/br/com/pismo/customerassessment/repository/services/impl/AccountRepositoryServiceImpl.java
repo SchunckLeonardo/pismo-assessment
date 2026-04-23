@@ -18,10 +18,11 @@ public class AccountRepositoryServiceImpl implements AccountRepositoryService {
     }
 
     @Override
-    public AccountDTO createAccount(String documentNumber) {
+    public AccountDTO createAccount(String documentNumber, Double availableCreditLimit) {
         Account accountCreated = accountRepository.save(
                 new Account(
-                        documentNumber
+                        documentNumber,
+                        availableCreditLimit
                 )
         );
 
@@ -40,10 +41,24 @@ public class AccountRepositoryServiceImpl implements AccountRepositoryService {
                 .map(this::toAccountDTO);
     }
 
+    @Override
+    public Void adjustAvailableCreditLimit(Integer accountId, Double amount) {
+        Optional<Account> account = accountRepository.findById(accountId);
+
+        if (account.isEmpty()) {
+            return null;
+        }
+
+        account.get().setAvailableCreditLimit(account.get().getAvailableCreditLimit() + amount);
+        accountRepository.save(account.get());
+        return null;
+    }
+
     private AccountDTO toAccountDTO(Account account) {
         return new AccountDTO(
                 account.getId(),
-                account.getDocumentNumber()
+                account.getDocumentNumber(),
+                account.getAvailableCreditLimit()
         );
     }
 

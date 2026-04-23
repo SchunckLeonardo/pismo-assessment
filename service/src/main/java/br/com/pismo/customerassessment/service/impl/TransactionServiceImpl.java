@@ -1,7 +1,10 @@
 package br.com.pismo.customerassessment.service.impl;
 
+import br.com.pismo.customerassessment.entity.account.dto.AccountDTO;
+import br.com.pismo.customerassessment.entity.enums.OperationTypeEnum;
 import br.com.pismo.customerassessment.entity.exceptions.AccountNotExistsException;
 import br.com.pismo.customerassessment.entity.exceptions.OperationTypeNotExistsException;
+import br.com.pismo.customerassessment.entity.exceptions.TransactionAmountExceedsAvailableCreditLimitException;
 import br.com.pismo.customerassessment.entity.operationtype.dto.OperationTypeDTO;
 import br.com.pismo.customerassessment.entity.transaction.dto.TransactionDTO;
 import br.com.pismo.customerassessment.entity.transaction.request.CreateTransactionRequestDTO;
@@ -10,6 +13,7 @@ import br.com.pismo.customerassessment.repository.services.AccountRepositoryServ
 import br.com.pismo.customerassessment.repository.services.OperationTypeRepositoryService;
 import br.com.pismo.customerassessment.repository.services.TransactionRepositoryService;
 import br.com.pismo.customerassessment.service.TransactionService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,17 +36,24 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public CreateTransactionResponseDTO createTransaction(CreateTransactionRequestDTO requestDTO) {
         Integer accountId = requestDTO.accountId();
         Integer operationTypeId = requestDTO.operationTypeId();
 
-        accountRepositoryService.getAccountById(accountId)
+        AccountDTO accountDTO = accountRepositoryService.getAccountById(accountId)
                 .orElseThrow(() -> new AccountNotExistsException(accountId));
 
         OperationTypeDTO operationType = operationTypeRepositoryService.getOperationTypeById(operationTypeId)
                 .orElseThrow(() -> new OperationTypeNotExistsException(operationTypeId));
 
         Double normalizedAmount = normalizeAmount(operationType, requestDTO.amount());
+
+        if (OperationTypeEnum.valueOf(operationType.description()) != OperationTypeEnum.PAYMENT && requestDTO.amount() > accountDTO.availableCreditLimit()) {
+            throw new TransactionAmountExceedsAvailableCreditLimitException(accountDTO.availableCreditLimit());
+        }
+
+        accountRepositoryService.adjustAvailableCreditLimit(accountId, normalizedAmount);
 
         TransactionDTO transaction = transactionRepositoryService.createTransaction(
                 accountId,
